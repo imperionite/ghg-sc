@@ -104,7 +104,7 @@ const GuestRoute = ({ children }) => {
     );
   }
 
-  return auth?.token ? <Navigate to="/data" replace /> : children;
+  return auth?.token ? <Navigate to="/community-dashboard" replace /> : children;
 };
 
 function App() {

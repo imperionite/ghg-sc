@@ -185,11 +185,25 @@ const About = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          its software model{" "}
+          its software model
+        </a>,{" "}
+        <a
+          href="https://climate.gov.ph/about-us"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Climate Change Commission
+        </a>,{" "}
+        <a
+          href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          IPCC 2006 Guidelines{" "}
         </a>
         and the{" "}
         <a
-          href="https://niccdies.climate.gov.ph/niccdies"
+          href="https://niccdies.climate.gov.ph"
           target="_blank"
           rel="noopener noreferrer"
         >

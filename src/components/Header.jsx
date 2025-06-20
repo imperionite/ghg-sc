@@ -49,16 +49,17 @@ export default function Header() {
               Home
             </Link>
           )}
-          <Link
-            to="/community-dashboard"
-            className="text-slate-700 hover:text-slate-900 font-medium"
-          >
-            Community Data
-          </Link>
+          {isAuthenticated && (
+            <Link
+              to="/community-dashboard"
+              className="text-slate-700 hover:text-slate-900 font-medium"
+            >
+              Community Data
+            </Link>
+          )}
+
           <a
             href={`${ghgBaseURL}/Public_Dashboard`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-slate-700 hover:text-slate-900 font-medium"
           >
             Public GHG Dashboard
