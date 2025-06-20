@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-const http = axios.create({
+export const http = axios.create({
   baseURL: baseURL,
   withCredentials: true,
   timeout: 100000,

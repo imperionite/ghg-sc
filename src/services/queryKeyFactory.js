@@ -1,20 +1,16 @@
+// Usage Guide 
+// profile: () => [...userKeys.all, "profile"]. It generates consistent keys ["users", "profile"]
+// usage: queryClient.invalidateQueries({ queryKey: userKeys.profile() });  OR
+// usage: queryClient.refetchQueries({ queryKey: userKeys.profile() });
+// use if for example When you’re fetching only the current user’s data (/api/me), don't need to know any specific identifier
+// userKeys.detail(id)	Any user’s data by ID	["users", "detail", "abc123"]	When fetching another user (or even current user via /api/users/{id})
+
 export const userKeys = {
   all: ["users"],
   lists: () => [...userKeys.all, "list"],
-  details: () => [...userKeys.all, "detail"],
-  detail: (id) => [...userKeys.details(), id],
+  details: (id) => [...userKeys.all, "detail", id],
+  profile: () => [...userKeys.all, "profile"],
 };
 
-export const employeeKeys = {
-  all: ["employees"],
-  lists: () => [...employeeKeys.all, "list"],
-  detail: (employeeNumber) => [...employeeKeys.all, "detail", employeeNumber],
-  partialDetails: () => [...employeeKeys.all, "partialDetails"],
-  fetchByEmployeeNum: () => [...employeeKeys.all, "fetchByEmployeeNum"]
-};
 
-export const salaryKeys = {
-  all: ["salary"],
-  monthlyCutoffs: () => [...salaryKeys.all, "monthlyCutoffs"],
-  employeeSalary: (employeeNumber, yearMonth) => [...salaryKeys.all, "employee", employeeNumber, yearMonth],
-};
+

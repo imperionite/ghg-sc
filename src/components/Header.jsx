@@ -7,6 +7,8 @@ import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 
 import { authAtom } from "../services/atoms";
 
+const ghgBaseURL = import.meta.env.VITE_BASE_GHG_URL;
+
 export default function Header() {
   const auth = useAtomValue(authAtom);
   const resetAuth = useResetAtom(authAtom);
@@ -53,6 +55,14 @@ export default function Header() {
           >
             Community Data
           </Link>
+          <a
+            href={`${ghgBaseURL}/Public_Dashboard`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-slate-700 hover:text-slate-900 font-medium"
+          >
+            Public GHG Dashboard
+          </a>
           <Link
             to="/about"
             className="text-slate-700 hover:text-slate-900 font-medium"
