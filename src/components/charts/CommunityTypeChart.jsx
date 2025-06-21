@@ -1,6 +1,4 @@
-// src/components/charts/CommunityTypeChart.js
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,25 +7,27 @@ import {
   LinearScale,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
-import { http } from "../../services/http";
+import toast from "react-hot-toast";
 import { Card, CardContent } from "@mui/material";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const fetchCommunityTypeData = async () => {
-  const res = await http.get("/api/ghg/aggregated-by-type");
-  return res.data;
-};
+import { useCommunityTypeSummary } from "../../services/hooks";
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Filler);
+
+const Loader = lazy(() => import("../../components/Loader"));
+
 
 export default function CommunityTypeChart() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["community-type-summary"],
-    queryFn: fetchCommunityTypeData,
-  });
+  const { data, isLoading, isError, error } = useCommunityTypeSummary()
 
-  if (isLoading) return <div className="text-sm text-gray-600">Loading...</div>;
-  if (error) return <div className="text-red-500">Error loading data</div>;
+  if (isLoading) return <Loader />;
+  if (isError || !data) {
+    toast.error(error?.message || "Failed to load data");
+    return null;
+  }
 
   const labels = data.map((item) => item.community_type);
   const emissions = data.map((item) => item.total_emissions);
@@ -41,6 +41,7 @@ export default function CommunityTypeChart() {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
+        fill: true
       },
     ],
   };
@@ -65,7 +66,9 @@ export default function CommunityTypeChart() {
   return (
     <Card className="mt-4 shadow-md">
       <CardContent>
-        <h2 className="text-lg font-semibold mb-2">Emissions by Community Type</h2>
+        <h2 className="text-lg font-semibold mb-2">
+          Emissions by Community Type
+        </h2>
         <Bar data={chartData} options={options} />
       </CardContent>
     </Card>

@@ -1,32 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import { Bar } from "react-chartjs-2";
-import { Box, Typography, CircularProgress, Paper } from "@mui/material";
-import { http } from "../../services/http";
+import { Typography, Paper } from "@mui/material";
+import toast from "react-hot-toast";
 
-const fetchSectoralByRegion = async () => {
-  const response = await http.get("/api/ghg/sectoral-by-region");
-  return response.data;
-};
+import { useSectoralByRegion } from "../../services/hooks";
+
+const Loader = lazy(() => import("../../components/Loader"));
 
 export default function SectoralByRegionChart() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["ghg", "sectoral-by-region"],
-    queryFn: fetchSectoralByRegion,
-    staleTime: 5 * 60 * 1000,
-  });
+  const { data, isLoading, isError, error } = useSectoralByRegion();
 
-  if (isLoading) {
-    return (
-      <Box className="flex justify-center items-center h-64">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isLoading) return <Loader />;
   if (isError || !data) {
-    return (
-      <Box className="text-center text-red-500 py-4">Failed to load data.</Box>
-    );
+    toast.error(error?.message || "Failed to load data");
+    return null;
   }
 
   // Convert data into chart format

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -8,24 +8,32 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
-import { http } from "../../services/http";
+import toast from "react-hot-toast";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import { useCommunitySummary } from "../../services/hooks";
 
-const fetchCommunitySummary = async () => {
-  const response = await http.get("/api/ghg/community-summary");
-  return response.data;
-};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+);
+
+const Loader = lazy(() => import("../../components/Loader"));
 
 export default function CommunitySummaryChart() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["community-summary"],
-    queryFn: fetchCommunitySummary,
-  });
+  const { data, isLoading, isError, error } = useCommunitySummary();
 
-  if (isLoading) return <p className="text-gray-500">Loading...</p>;
-  if (isError) return <p className="text-red-500">Failed to load data</p>;
+  if (isLoading) return <Loader />;
+  if (isError || !data) {
+    toast.error(error?.message || "Failed to load data");
+    return null;
+  }
 
   const labels = data.map((d) => `${d.city}, ${d.region}`);
   const emissions = data.map((d) => d.total_emissions);
@@ -39,6 +47,7 @@ export default function CommunitySummaryChart() {
         backgroundColor: "rgba(54, 162, 235, 0.6)",
         borderColor: "#36A2EB",
         borderWidth: 1,
+        fill: true
       },
     ],
   };

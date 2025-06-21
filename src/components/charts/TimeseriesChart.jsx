@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import { Line } from "react-chartjs-2";
+import toast from "react-hot-toast";
 import {
   Chart as ChartJS,
   LineElement,
@@ -9,27 +10,24 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { http } from "../../services/http";
+import { useTimeseries } from "../../services/hooks";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend
+);
 
-const fetchTimeseries = async () => {
-  const res = await http.get("/api/ghg/timeseries");
-  return res.data;
-};
-
+const Loader = lazy(() => import("../../components/Loader"));
 export default function TimeseriesChart() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["ghg", "timeseries"],
-    queryFn: fetchTimeseries,
-  });
-
-  if (isLoading) return <div className="text-center p-4">Loading chart...</div>;
-  if (error) return <div className="text-center p-4 text-red-500">Error loading chart</div>;
+  const { data, isLoading, error, isError } = useTimeseries();
 
   const chartData = {
-    labels: data.labels,
-    datasets: data.datasets.map((ds) => ({
+    labels: data?.labels,
+    datasets: data?.datasets.map((ds) => ({
       ...ds,
       fill: true,
     })),
@@ -57,10 +55,18 @@ export default function TimeseriesChart() {
     },
   };
 
+  if (isLoading) return <Loader />;
+  if (isError) {
+    toast.error(error?.message || "Failed to load chart data!");
+    return <p className="text-red-500">Failed to load chart data.</p>;
+  }
+
   return (
     <div className="p-4 bg-white rounded-2xl shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Community GHG Emissions Over Time</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Community GHG Emissions Over Time
+      </h2>
       <Line data={chartData} options={options} />
     </div>
   );
-} 
+}

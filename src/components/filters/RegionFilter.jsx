@@ -1,5 +1,3 @@
-import React from "react";
-
 const RegionFilter = ({ regions, selectedRegions, onChange }) => {
   return (
     <div className="mb-4">
@@ -7,9 +5,11 @@ const RegionFilter = ({ regions, selectedRegions, onChange }) => {
       <select
         multiple
         value={selectedRegions}
-        onChange={(e) =>
-          onChange(Array.from(e.target.selectedOptions, (opt) => opt.value))
-        }
+        onChange={(e) => {
+          const selectedValues = Array.from(e.target.selectedOptions, (opt) => opt.value);
+          console.log("Selected regions:", selectedValues); 
+          onChange(selectedValues);
+        }}
         className="w-full border rounded p-2"
       >
         {regions.map((region) => (
@@ -22,4 +22,4 @@ const RegionFilter = ({ regions, selectedRegions, onChange }) => {
   );
 };
 
-export default RegionFilter;
+export default RegionFilter

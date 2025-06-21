@@ -1,9 +1,24 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Box,
+  useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 
 import { authAtom } from "../services/atoms";
 
@@ -11,9 +26,14 @@ const ghgBaseURL = import.meta.env.VITE_BASE_GHG_URL;
 
 export default function Header() {
   const auth = useAtomValue(authAtom);
+  const isAuthenticated = Boolean(auth?.token);
+  const location = useLocation();
+
   const resetAuth = useResetAtom(authAtom);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:768px)");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleLogout = () => {
     resetAuth();
@@ -21,77 +41,173 @@ export default function Header() {
     localStorage.clear();
     navigate("/");
     toast.success("Successfully logged out!");
+    setDrawerOpen(false);
   };
 
-  const isAuthenticated = auth?.token; // Determines if the user is authenticated
+  const publicLinks = [
+    { label: "Home", to: "/" },
+    { label: "About", to: "/about" },
+    {
+      label: "Public GHG Dashboard",
+      to: `${ghgBaseURL}/Public_Dashboard`,
+      external: true,
+    },
+    { label: "Login", to: "/login" },
+    { label: "Register", to: "/register" },
+  ];
+
+  const authLinks = [
+    { label: "About", to: "/about" },
+    { label: "Community Data", to: "/community-dashboard" },
+    {
+      label: "Public GHG Dashboard",
+      to: `${ghgBaseURL}/Public_Dashboard`,
+      external: true,
+    },
+    { label: "GHG Submission", to: "/ghg-submission-form", isPrimary: true },
+    { label: "Logout", onClick: handleLogout },
+  ];
+
+  const linksToRender = isAuthenticated ? authLinks : publicLinks;
+
+  const isActive = (path) => {
+    if (!path || path.startsWith("http")) return false;
+    return location.pathname === path;
+  };
+
+  const renderNavLinks = (isDrawer = false) =>
+    linksToRender.map((link, idx) => {
+      const active = isActive(link.to);
+
+      const textClass = active
+        ? "text-emerald-600 font-semibold"
+        : "text-slate-600 hover:text-slate-900";
+
+      const itemClass = isDrawer ? "" : textClass;
+
+      if (link.onClick) {
+        return (
+          <ListItem button key={idx} onClick={link.onClick}>
+            <ListItemText primary={link.label} className={itemClass} />
+          </ListItem>
+        );
+      }
+
+      if (link.external) {
+        return (
+          <ListItem
+            button
+            key={idx}
+            component="a"
+            href={link.to}
+            onClick={() => setDrawerOpen(false)}
+          >
+            <ListItemText primary={link.label} className={itemClass} />
+          </ListItem>
+        );
+      }
+
+      return (
+        <ListItem
+          button
+          key={idx}
+          component={Link}
+          to={link.to}
+          onClick={() => setDrawerOpen(false)}
+        >
+          <ListItemText primary={link.label} className={itemClass} />
+        </ListItem>
+      );
+    });
 
   return (
-    <AppBar
-      position="static"
-      color="default"
-      elevation={1}
-      className="bg-white border-b border-slate-200"
-    >
-      <Toolbar className="flex justify-between">
-        <Link to="/">
-          <Typography variant="h6" className="font-bold text-slate-800">
-            GHG-Scout
-          </Typography>
-        </Link>
-
-        <div className="space-x-4">
-          {/* Links accessible regardless of authentication */}
-          {!isAuthenticated && (
-            <Link
-              to="/"
-              className="text-slate-700 hover:text-slate-900 font-medium"
-            >
-              Home
-            </Link>
-          )}
-          {isAuthenticated && (
-            <Link
-              to="/community-dashboard"
-              className="text-slate-700 hover:text-slate-900 font-medium"
-            >
-              Community Data
-            </Link>
-          )}
-
-          <a
-            href={`${ghgBaseURL}/Public_Dashboard`}
-            className="text-slate-700 hover:text-slate-900 font-medium"
-          >
-            Public GHG Dashboard
-          </a>
-          <Link
-            to="/about"
-            className="text-slate-700 hover:text-slate-900 font-medium"
-          >
-            About
+    <>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={1}
+        className="bg-white border-b border-slate-200"
+      >
+        <Toolbar className="flex justify-between items-center">
+          <Link to="/" className="text-slate-800 font-bold no-underline">
+            <Typography variant="h6">GHG-Scout</Typography>
           </Link>
 
-          {/* Auth-specific buttons */}
-          {isAuthenticated ? (
-            <Button onClick={handleLogout} variant="outlined" color="primary">
-              Logout
-            </Button>
-          ) : (
-            <>
-              <Link to="/login">
-                <Button variant="text" color="primary">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button variant="contained" color="primary">
-                  Register
-                </Button>
-              </Link>
-            </>
+          {!isMobile && (
+            <Box className="flex gap-4 items-center">
+              {linksToRender.map((link, idx) => {
+                const active = isActive(link.to);
+
+                const textClass = active
+                  ? "text-emerald-600 font-semibold"
+                  : "text-slate-600 hover:text-slate-900";
+
+                if (link.onClick) {
+                  return (
+                    <Button
+                      key={idx}
+                      onClick={link.onClick}
+                      variant="outlined"
+                      color="primary"
+                    >
+                      {link.label}
+                    </Button>
+                  );
+                }
+
+                if (link.isPrimary) {
+                  return (
+                    <Link key={idx} to={link.to}>
+                      <Button variant="contained" color="primary">
+                        {link.label}
+                      </Button>
+                    </Link>
+                  );
+                }
+
+                if (link.external) {
+                  return (
+                    <a key={idx} href={link.to} className={textClass}>
+                      {link.label}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link key={idx} to={link.to} className={textClass}>
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </Box>
           )}
-        </div>
-      </Toolbar>
-    </AppBar>
+
+          {isMobile && (
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => setDrawerOpen(true)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <Box sx={{ width: 250 }} role="presentation">
+          <Box className="flex justify-end p-2">
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <List>{renderNavLinks(true)}</List>
+        </Box>
+      </Drawer>
+    </>
   );
 }

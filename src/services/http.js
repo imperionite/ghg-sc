@@ -96,4 +96,64 @@ const getUserProfile = async () => {
   }
 };
 
-export { login, register, getAccessToken, getUserProfile };
+const submitGHGData = async (data) => {
+  try {
+    const response = await http.post("/api/ghg/submit", data);
+    return response.data;
+  } catch (error) {
+    console.error("GHG submission error", error);
+    throw error;
+  }
+};
+
+export const getCommunitySummary = async () => {
+  const res = await http.get("/api/ghg/community-summary");
+  return res.data;
+};
+
+export const getCommunityTypeSummary = async () => {
+  const res = await http.get("/api/ghg/aggregated-by-type");
+  return res.data;
+};
+
+export const getSectoralByRegion = async () => {
+  const res = await http.get("/api/ghg/sectoral-by-region");
+  return res.data;
+};
+
+export const getRegionalTrends = async (regions = []) => {
+  const res = await http.get(`/api/ghg/regional-trend-summary`);
+  const filteredData = res.data;
+
+  if (regions.length > 0) {
+    const filtered = {};
+    Object.entries(filteredData).forEach(([region, data]) => {
+      const isMatch = regions.some((selectedRegion) =>
+        region.toLowerCase().includes(selectedRegion.toLowerCase())
+      );
+      if (isMatch) {
+        filtered[region] = data;
+      }
+    });
+    return filtered;
+  }
+
+  return filteredData;
+};
+
+export const getSectoralTrend = async () => {
+  const res = await http.get("/api/ghg/sectoral-trend");
+  return res.data;
+};
+
+export const getSectorByCommunityType = async () => {
+  const res = await http.get("/api/ghg/sectoral-by-community-type");
+  return res.data;
+};
+
+export const getTimeseries = async () => {
+  const res = await http.get("/api/ghg/timeseries");
+  return res.data;
+};
+
+export { login, register, getAccessToken, getUserProfile, submitGHGData };

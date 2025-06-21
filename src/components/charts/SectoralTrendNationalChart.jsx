@@ -1,32 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { lazy } from "react";
 import { Line } from "react-chartjs-2";
-import { Paper, Typography, CircularProgress, Box } from "@mui/material";
-import { http } from "../../services/http";
+import { Paper, Typography } from "@mui/material";
+import toast from "react-hot-toast";
 
-const fetchSectoralTrend = async () => {
-  const res = await http.get("/api/ghg/sectoral-trend");
-  return res.data;
-};
+import { useSectoralTrend } from "../../services/hooks";
+
+const Loader = lazy(() => import("../../components/Loader"));
 
 export default function SectoralTrendNationalChart() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["ghg", "sectoral-trend"],
-    queryFn: fetchSectoralTrend,
-    staleTime: 5 * 60 * 1000,
-  });
+  const { data, isLoading, isError, error } = useSectoralTrend();
 
-  if (isLoading) {
-    return (
-      <Box className="flex justify-center items-center h-64">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
+  if (isLoading) return <Loader />;
   if (isError || !data) {
-    return (
-      <Box className="text-center text-red-500 py-4">Failed to load data.</Box>
-    );
+    toast.error(error?.message || "Failed to load data");
+    return null;
   }
 
   const sectorNames = Object.keys(data);
@@ -44,7 +31,9 @@ export default function SectoralTrendNationalChart() {
         return i !== -1 ? data[sector].data[i] : 0;
       }),
       borderColor: `hsl(${(idx * 360) / sectorNames.length}, 70%, 50%)`,
-      backgroundColor: `hsla(${(idx * 360) / sectorNames.length}, 70%, 70%, 0.5)`,
+      backgroundColor: `hsla(${
+        (idx * 360) / sectorNames.length
+      }, 70%, 70%, 0.5)`,
       fill: false,
       tension: 0.3,
     })),
@@ -54,7 +43,10 @@ export default function SectoralTrendNationalChart() {
     responsive: true,
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "National Sectoral Emission Trends (CO2e)" },
+      title: {
+        display: true,
+        text: "National Sectoral Emission Trends (CO2e)",
+      },
     },
     interaction: { mode: "index", intersect: false },
     scales: {

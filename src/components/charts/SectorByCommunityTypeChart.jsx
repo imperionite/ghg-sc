@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMemo, lazy } from "react";
 import { Bar } from "react-chartjs-2";
+import toast from "react-hot-toast";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,14 +10,13 @@ import {
   Legend,
 } from "chart.js";
 import { Card, CardHeader, CardContent, Typography } from "@mui/material";
-import { http } from "../../services/http";
+
+import { useSectoralByCommunityType } from "../../services/hooks";
+
+const Loader = lazy(() => import("../../components/Loader"));
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const fetchSectorByCommunityType = async () => {
-  const { data } = await http.get("/api/ghg/sectoral-by-community-type");
-  return data;
-};
 
 const generateColor = (index) => {
   const palette = [
@@ -35,10 +34,7 @@ const generateColor = (index) => {
 };
 
 export default function SectorByCommunityTypeChart() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["sectoral-by-community-type"],
-    queryFn: fetchSectorByCommunityType,
-  });
+  const { data, isLoading, isError, error } = useSectoralByCommunityType();
 
   const chartData = useMemo(() => {
     if (!data) return null;
@@ -63,41 +59,42 @@ export default function SectorByCommunityTypeChart() {
     };
   }, [data]);
 
-  const options = useMemo(() => ({
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-      tooltip: {
-        mode: "index",
-        intersect: false,
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        title: {
-          display: true,
-          text: "Sector",
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+        tooltip: {
+          mode: "index",
+          intersect: false,
         },
       },
-      y: {
-        stacked: true,
-        title: {
-          display: true,
-          text: "Total Emissions (kg CO2e)",
+      scales: {
+        x: {
+          stacked: true,
+          title: {
+            display: true,
+            text: "Sector",
+          },
+        },
+        y: {
+          stacked: true,
+          title: {
+            display: true,
+            text: "Total Emissions (kg CO2e)",
+          },
         },
       },
-    },
-  }), []);
+    }),
+    []
+  );
 
-  if (isLoading || !chartData) {
-    return (
-      <div className="p-4">
-        <Typography variant="body2">Loading sectoral emissions by community type...</Typography>
-      </div>
-    );
+    if (isLoading) return <Loader />;
+  if (isError || !data) {
+    toast.error(error?.message || "Failed to load data");
+    return null;
   }
 
   return (

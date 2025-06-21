@@ -6,7 +6,7 @@ import SectoralByRegionChart from "../components/charts/SectoralByRegionChart";
 import SectoralTrendNationalChart from "../components/charts/SectoralTrendNationalChart";
 import SectorByCommunityTypeChart from "../components/charts/SectorByCommunityTypeChart";
 
-export const CommunityDashboard = () => {
+const CommunityDashboard = () => {
   return (
     <div className="p-4 grid grid-cols-1 gap-4">
       <CommunitySummaryChart />
@@ -19,3 +19,5 @@ export const CommunityDashboard = () => {
     </div>
   );
 };
+
+export default CommunityDashboard

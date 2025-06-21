@@ -1,4 +1,4 @@
-// Usage Guide 
+// Usage Guide
 // profile: () => [...userKeys.all, "profile"]. It generates consistent keys ["users", "profile"]
 // usage: queryClient.invalidateQueries({ queryKey: userKeys.profile() });  OR
 // usage: queryClient.refetchQueries({ queryKey: userKeys.profile() });
@@ -10,7 +10,22 @@ export const userKeys = {
   lists: () => [...userKeys.all, "list"],
   details: (id) => [...userKeys.all, "detail", id],
   profile: () => [...userKeys.all, "profile"],
+  detail: (id) => [...userKeys.all, "detail", id],
 };
 
+export const ghgKeys = {
+  all: ["ghg"],
+  communitySummary: () => [...ghgKeys.all, "community-summary"],
+  sectoralByRegion: () => [...ghgKeys.all, "sectoral-by-region"],
+  communityType: () => [...ghgKeys.all, "community-type"],
+  sectoralTrend: () => [...ghgKeys.all, "sectoral-trend"],
+  timeseries: () => [...ghgKeys.all, "timeseries"],
+  // ghgKeys.js or wherever defined
+  regionalTrends: (regions) => [
+    ...ghgKeys.all,
+    "regional-trends",
+    regions.slice().sort().join(","),
+  ],
 
-
+  sectorByCommunityType: () => [...ghgKeys.all, "sectoral-by-community-type"],
+};
