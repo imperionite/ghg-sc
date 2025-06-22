@@ -1,0 +1,52 @@
+// import * as yup from "yup";
+
+export const ghgSchema = (yup) => ({
+  energy: yup.object().shape({
+    sector: yup.string().required(),
+    electricity_consumed_kwh: yup.number().min(0).nullable(),
+    lpg_used_kg: yup.number().min(0).nullable(),
+    kerosene_used_liters: yup.number().min(0).nullable(),
+    firewood_used_kg: yup.number().min(0).nullable(),
+    diesel_used_liters: yup.number().min(0).nullable(),
+    gasoline_used_liters: yup.number().min(0).nullable(),
+    coal_used_kg: yup.number().min(0).nullable(),
+  }),
+  transport: yup.object().shape({
+    sector: yup.string().required(),
+    vehicle_type: yup.string(),
+    fuel_type: yup.string(),
+    number_of_vehicles: yup.number().min(0).nullable(),
+    distance_travelled_daily_km: yup.number().min(0).nullable(),
+    travel_frequency_per_week: yup.number().min(0).nullable(),
+    trips_per_day: yup.number().min(0).nullable(),
+  }),
+  waste: yup.object().shape({
+    sector: yup.string().required(),
+    waste_generated_kg_per_month: yup.number().min(0).nullable(),
+    organic_fraction_percent: yup.number().min(0).max(100).nullable(),
+    waste_disposal_method: yup.string(),
+    methane_capture: yup.boolean(),
+  }),
+  agriculture: yup.object().shape({
+    sector: yup.string().required(),
+    number_of_cattle: yup.number().min(0).nullable(),
+    number_of_carabao: yup.number().min(0).nullable(),
+    number_of_goats: yup.number().min(0).nullable(),
+    number_of_pigs: yup.number().min(0).nullable(),
+    number_of_chickens: yup.number().min(0).nullable(),
+    manure_management: yup.string(),
+    rice_paddy_area_hectares: yup.number().min(0).nullable(),
+    rice_water_management: yup.string(),
+    fertilizer_type: yup.string(),
+    fertilizer_applied_kg: yup.number().min(0).nullable(),
+  }),
+  ippu: yup.object().shape({
+    sector: yup.string().required(),
+    cement_produced_tonnes: yup.number().min(0).nullable(),
+    lime_produced_tonnes: yup.number().min(0).nullable(),
+    steel_produced_tonnes: yup.number().min(0).nullable(),
+    refrigerant_consumed_kg: yup.number().min(0).nullable(),
+    solvent_used_liters: yup.number().min(0).nullable(),
+    other_process_emissions_CO2e_tonnes: yup.number().min(0).nullable(),
+  }),
+});

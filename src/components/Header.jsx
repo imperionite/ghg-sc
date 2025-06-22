@@ -64,6 +64,7 @@ export default function Header() {
       to: `${ghgBaseURL}/Public_Dashboard`,
       external: true,
     },
+    { label: "Profile", to: "/me" },
     { label: "GHG Submission", to: "/ghg-submission-form", isPrimary: true },
     { label: "Logout", onClick: handleLogout },
   ];

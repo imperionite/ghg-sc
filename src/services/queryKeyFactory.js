@@ -20,12 +20,20 @@ export const ghgKeys = {
   communityType: () => [...ghgKeys.all, "community-type"],
   sectoralTrend: () => [...ghgKeys.all, "sectoral-trend"],
   timeseries: () => [...ghgKeys.all, "timeseries"],
-  // ghgKeys.js or wherever defined
   regionalTrends: (regions) => [
     ...ghgKeys.all,
     "regional-trends",
     regions.slice().sort().join(","),
   ],
-
   sectorByCommunityType: () => [...ghgKeys.all, "sectoral-by-community-type"],
+  // user-specific submissions keys:
+  // key for fetching all submissions by a specific user.
+  userSubmissions: (userId) => [...ghgKeys.all, "user-submissions", userId],
+  // key for fetching a specific submission by a user.
+  userSubmissionById: (userId, submissionId) => [
+    ...ghgKeys.all,
+    "user-submissions",
+    userId,
+    submissionId,
+  ],
 };

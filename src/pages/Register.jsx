@@ -21,7 +21,7 @@ import * as yup from "yup";
 
 import { register as apiRegister } from "../services/http";
 import { authAtom } from "../services/atoms";
-import { userKeys } from "../services/queryKeyFactory";
+import { userKeys, ghgKeys } from "../services/queryKeyFactory";
 
 const Loader = lazy(() => import("../components/Loader"));
 
@@ -146,6 +146,7 @@ const Register = () => {
     mutationFn: (data) => apiRegister(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
+      queryClient.invalidateQueries({ queryKey: ghgKeys.all });
       reset();
       setAuth({
         id: data?.user?.id,
@@ -156,7 +157,7 @@ const Register = () => {
         region: data?.user?.region,
         city: data?.user?.city,
       });
-      toast.success(`Welcome ${data?.username}`);
+      toast.success(`Welcome ${data?.user?.username}`);
       navigate("/community-dashboard");
     },
     onError: (err) => {

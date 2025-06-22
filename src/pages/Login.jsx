@@ -11,7 +11,7 @@ import { sanitize } from "isomorphic-dompurify";
 
 import { login } from "../services/http";
 import { authAtom } from "../services/atoms";
-import { userKeys } from "../services/queryKeyFactory";
+import { userKeys, ghgKeys } from "../services/queryKeyFactory";
 
 const Loader = lazy(() => import("../components/Loader"));
 
@@ -31,6 +31,7 @@ export default function Login() {
     mutationFn: login,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: userKeys.all });
+      queryClient.invalidateQueries({ queryKey: ghgKeys.all });
       setAuth({
         id: data?.user?.id,
         username: data?.user?.username,
