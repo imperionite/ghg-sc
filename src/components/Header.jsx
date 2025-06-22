@@ -49,7 +49,7 @@ export default function Header() {
     { label: "About", to: "/about" },
     {
       label: "Public GHG Dashboard",
-      to: `${ghgBaseURL}/Public_Dashboard`,
+      to: `${ghgBaseURL}/User_Generated_GHG_Data`,
       external: true,
     },
     { label: "Login", to: "/login" },
@@ -61,7 +61,7 @@ export default function Header() {
     { label: "Community Data", to: "/community-dashboard" },
     {
       label: "Public GHG Dashboard",
-      to: `${ghgBaseURL}/Public_Dashboard`,
+      to: `${ghgBaseURL}/User_Generated_GHG_Data`,
       external: true,
     },
     { label: "Profile", to: "/me" },

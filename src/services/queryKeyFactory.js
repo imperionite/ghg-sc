@@ -29,6 +29,9 @@ export const ghgKeys = {
   // user-specific submissions keys:
   // key for fetching all submissions by a specific user.
   userSubmissions: (userId) => [...ghgKeys.all, "user-submissions", userId],
+  userSector: (userId) => [...ghgKeys.all, "userSector", userId],
+  userComparison: (userId) => [...ghgKeys.all, "userComparison", userId],
+  userTrend: (userId) => [...ghgKeys.all, "userTrend", userId],
   // key for fetching a specific submission by a user.
   userSubmissionById: (userId, submissionId) => [
     ...ghgKeys.all,

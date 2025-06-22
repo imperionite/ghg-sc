@@ -1,4 +1,4 @@
-import { lazy, useState } from "react";
+import { lazy, useState, useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useAtomValue } from "jotai";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -52,7 +52,7 @@ export default function GHGSubmissionForm() {
   const [value, setValue] = useState(0);
   const [showNote, setShowNote] = useState(true);
 
-  const schema = ghgSchema(yup)[sectors[value]];
+  const schema = useMemo(() => ghgSchema(yup)[sectors[value]], [value]);
 
   const {
     control,
@@ -82,43 +82,29 @@ export default function GHGSubmissionForm() {
     },
   });
 
-  // Convert string inputs to numbers or booleans before submission
-  const convertToNumbers = (data) => {
-    const converted = { sector: data.sector };
-    Object.keys(data).forEach((key) => {
-      if (key === "sector") return;
-      if (typeof data[key] === "string") {
-        if (data[key] === "true") converted[key] = true;
-        else if (data[key] === "false") converted[key] = false;
-        else {
-          const num = Number(data[key]);
-          converted[key] = isNaN(num) ? data[key] : num;
-        }
-      } else {
-        converted[key] = data[key];
-      }
-    });
-    return converted;
-  };
-
-  const onSubmit = (data) => {
-    const sanitized = {};
-    for (const key in data) {
-      sanitized[key] =
-        typeof data[key] === "string" ? sanitize(data[key]) : data[key];
-    }
-    const payload = convertToNumbers(sanitized);
-    mutation.mutate(payload);
-  };
-
   const handleSectorChange = (e, newValue) => {
     setValue(newValue);
     setSector(sectors[newValue]);
-    // reset({ sector: sectors[newValue] });
     reset(ghgDefaultValues(sectors[newValue]));
   };
 
-  // Custom Tab styles for compact, rounded inline tabs
+  const onSubmit = (data) => {
+    // Step 1: Sanitize string fields
+    const sanitized = Object.keys(data).reduce((acc, key) => {
+      if (typeof data[key] === "string") {
+        acc[key] = sanitize(data[key]);  // Sanitize strings
+      } else if (data[key] === null || data[key] === "") {
+        acc[key] = ghgDefaultValues(sector)[key] || data[key];  // Use default if missing
+      } else {
+        acc[key] = data[key];  // Keep non-string values intact
+      }
+      return acc;
+    }, {});
+
+    // Step 2: Proceed with the mutation
+    mutation.mutate(sanitized);
+  };
+
   const tabSx = {
     minWidth: 80,
     borderRadius: "16px",
@@ -128,19 +114,13 @@ export default function GHGSubmissionForm() {
     paddingX: 1.5,
   };
 
-  // Helper for enum fields
   const getEnumOptions = (sector, field) => {
-    if (sector === "transport" && field === "vehicle_type")
-      return vehicleTypeOptions;
+    if (sector === "transport" && field === "vehicle_type") return vehicleTypeOptions;
     if (sector === "transport" && field === "fuel_type") return fuelTypeOptions;
-    if (sector === "waste" && field === "waste_disposal_method")
-      return wasteDisposalMethodOptions;
-    if (sector === "agriculture" && field === "manure_management")
-      return manureManagementOptions;
-    if (sector === "agriculture" && field === "rice_water_management")
-      return riceWaterManagementOptions;
-    if (sector === "agriculture" && field === "fertilizer_type")
-      return fertilizerTypeOptions;
+    if (sector === "waste" && field === "waste_disposal_method") return wasteDisposalMethodOptions;
+    if (sector === "agriculture" && field === "manure_management") return manureManagementOptions;
+    if (sector === "agriculture" && field === "rice_water_management") return riceWaterManagementOptions;
+    if (sector === "agriculture" && field === "fertilizer_type") return fertilizerTypeOptions;
     return null;
   };
 
@@ -221,17 +201,14 @@ export default function GHGSubmissionForm() {
               const hint = meta.hint || "";
               const tooltip = meta.tooltip || "";
 
-              // Boolean field
               const isBoolean =
-                schema.fields[field]?.type === "boolean" ||
-                field === "methane_capture";
+                schema.fields[field]?.type === "boolean";  // Updated boolean logic
 
-              // Enum field with suggestions and free text
               const enumOptions = getEnumOptions(sector, field);
 
               if (enumOptions) {
                 return (
-                  <Grid item xs={12} sm={6} key={field}>
+                  <Grid size={{ xs: 12, sm: 6 }} key={field}>
                     <Controller
                       name={field}
                       control={control}
@@ -279,7 +256,6 @@ export default function GHGSubmissionForm() {
                 );
               }
 
-              // Boolean field rendering
               if (isBoolean) {
                 return (
                   <Grid item xs={12} sm={6} key={field}>
@@ -324,9 +300,8 @@ export default function GHGSubmissionForm() {
                 );
               }
 
-              // Default: number or text field
               return (
-                <Grid item xs={12} sm={6} key={field}>
+                <Grid size={{ xs: 12, sm: 6 }} key={field}>
                   <Controller
                     name={field}
                     control={control}

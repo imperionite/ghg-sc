@@ -48,10 +48,13 @@ export function ghgDefaultValues(sector) {
   const defaults = { sector };
   fields[sector].forEach((field) => {
     if (field === "methane_capture") defaults[field] = false;
-    else if (field === "manure_management") defaults[field] = "none";
-    else if (field === "rice_water_management") defaults[field] = "continuous_flooding";
-    else if (field === "fertilizer_type") defaults[field] = "none";
-    else defaults[field] = null;
+    else if (field === "manure_management") defaults[field] = "others";
+    else if (field === "vehicle_type") defaults[field] = "others";
+    else if (field === "fuel_type") defaults[field] = "others";
+    else if (field === "waste_disposal_method") defaults[field] = "others";
+    else if (field === "rice_water_management") defaults[field] = "others";
+    else if (field === "fertilizer_type") defaults[field] = "others";
+    else defaults[field] = 0;  // Default numeric fields to 0
   });
   return defaults;
 }

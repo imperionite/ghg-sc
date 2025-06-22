@@ -96,6 +96,16 @@ const getUserProfile = async () => {
   }
 };
 
+const deleteUser = async (userId) => {
+  try {
+    const response = await http.delete(`/api/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Deactivate user error", error);
+    throw error;
+  }
+};
+
 const submitGHGData = async (data) => {
   try {
     const response = await http.post("/api/ghg/submit", data);
@@ -156,4 +166,11 @@ export const getTimeseries = async () => {
   return res.data;
 };
 
-export { login, register, getAccessToken, getUserProfile, submitGHGData };
+export {
+  login,
+  register,
+  getAccessToken,
+  getUserProfile,
+  submitGHGData,
+  deleteUser,
+};
