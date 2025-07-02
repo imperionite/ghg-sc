@@ -1,5 +1,7 @@
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+
+const ghgBaseURL = import.meta.env.VITE_BASE_GHG_URL;
 
 const Hero = () => {
   return (
@@ -8,9 +10,10 @@ const Hero = () => {
       <section
         className="relative flex flex-col items-center justify-center text-center px-6 py-20 md:py-32"
         style={{
-          minHeight: 'calc(100vh - 64px)',
-          background: 'linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 70%, #1e293b 100%)',
-          color: '#1e293b',
+          minHeight: "calc(100vh - 64px)",
+          background:
+            "linear-gradient(180deg, #f1f5f9 0%, #cbd5e1 70%, #1e293b 100%)",
+          color: "#1e293b",
         }}
       >
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-sm">
@@ -18,7 +21,9 @@ const Hero = () => {
         </h1>
 
         <p className="max-w-2xl text-lg md:text-xl text-slate-700 mb-10 leading-relaxed">
-          Join GHG-Scout and take climate action at the grassroots level. Estimate, visualize, and interpret emissions data tailored for schools and LGUs.
+          Join GHG-Scout and take climate action at the grassroots level.
+          Estimate, visualize, and interpret emissions data tailored for schools
+          and LGUs.
         </p>
 
         <Link to="/register" className="relative z-10 mb-8">
@@ -33,7 +38,7 @@ const Hero = () => {
         {/* Decorative Wave */}
         <div
           className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]"
-          style={{ height: '160px', marginBottom: '-5px' }}
+          style={{ height: "160px", marginBottom: "-5px" }}
         >
           <svg
             className="relative block w-full h-full"
@@ -57,31 +62,32 @@ const Hero = () => {
         </h2>
 
         <p className="text-lg md:text-xl max-w-2xl mb-10 text-slate-200 leading-relaxed">
-          Access the main dashboard to analyze and visualize emissions data collected from your community. Gain insights and track progress with interactive charts and reports.
+          Access the main dashboard to analyze and visualize emissions data
+          collected from your community. Gain insights and track progress with
+          interactive charts and reports.
         </p>
 
-        <Link to="/data">
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              bgcolor: '#fbbf24', // amber-400
-              color: '#1e293b', // slate-800
-              px: 6,
-              py: 2.5,
-              fontWeight: 700,
-              fontSize: '1rem',
-              borderRadius: '1rem',
-              boxShadow: '0 8px 15px rgba(251, 191, 36, 0.4)',
-              '&:hover': {
-                bgcolor: '#f59e0b', // amber-500
-                boxShadow: '0 12px 20px rgba(245, 158, 11, 0.6)',
-              },
-            }}
-          >
-            Get Visual
-          </Button>
-        </Link>
+        <Button
+          href={`${ghgBaseURL}/User_Generated_GHG_Data`}
+          variant="contained"
+          size="large"
+          sx={{
+            bgcolor: "#fbbf24", // amber-400
+            color: "#1e293b", // slate-800
+            px: 6,
+            py: 2.5,
+            fontWeight: 700,
+            fontSize: "1rem",
+            borderRadius: "1rem",
+            boxShadow: "0 8px 15px rgba(251, 191, 36, 0.4)",
+            "&:hover": {
+              bgcolor: "#f59e0b", // amber-500
+              boxShadow: "0 12px 20px rgba(245, 158, 11, 0.6)",
+            },
+          }}
+        >
+          Get Visual
+        </Button>
       </section>
     </>
   );
