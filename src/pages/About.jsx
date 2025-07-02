@@ -1,245 +1,134 @@
 const About = () => {
   return (
-    <div className="max-w-5xl mx-auto p-6 text-neutral-800">
-      <h1 className="text-2xl font-bold mb-4">About GHG-Scout PH</h1>
+    <div className="max-w-5xl mx-auto p-6 text-neutral-800 space-y-8">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-2">About GHG-Scout PH</h1>
+        <p className="text-lg text-neutral-600">
+          Empowering Filipino communities with localized carbon footprint insights.
+        </p>
+      </div>
 
-      <p className="mb-4">
-        <strong>GHG-Scout PH</strong> is an innovative software application
-        designed to empower local communities across the Philippines—schools,
-        Local Government Units (LGUs), and barangays (Barrio)—to estimate,
-        track, and understand their greenhouse gas (GHG) emissions. Focusing on
-        key sectors such as energy, transport, waste, and agriculture, GHG-Scout
-        PH provides a simple, accessible, and localized approach to climate
-        action.
-      </p>
+      <section className="bg-white rounded-2xl shadow p-6 space-y-4">
+        <p>
+          <strong>GHG-Scout PH</strong> is an innovative software application
+          designed to help schools, Local Government Units (LGUs), and barangays
+          estimate, track, and understand their greenhouse gas (GHG) emissions. 
+          It focuses on key sectors like energy, transport, waste, and agriculture 
+          — providing an accessible, science-based tool for climate action.
+        </p>
+      </section>
 
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Why Measure Greenhouse Gas Emissions?
-      </h2>
-      <p className="mb-4">
-        The Philippines is highly vulnerable to climate change, facing
-        challenges like rising sea levels, stronger typhoons, flooding, and
-        health risks. Tracking emissions at the community level helps:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Raise awareness about local emission sources and their environmental
-          impact.
-        </li>
-        <li>Support informed decision-making to reduce carbon footprints.</li>
-        <li>Contribute meaningfully to national and global climate goals.</li>
-        <li>
-          Enhance data granularity, complementing national inventory systems
-          such as the{" "}
-          <a
-            href="https://niccdies.climate.gov.ph/ghg-inventory"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Philippine Greenhouse Gas Inventory Management and Reporting System
-            (PGHGIMRS)
-          </a>
-          .
-        </li>
-      </ul>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-neutral-50 p-4 rounded-xl shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Why Measure Emissions?</h2>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Raise awareness of local emission sources.</li>
+            <li>Support data-driven decision-making.</li>
+            <li>Contribute to national and global climate goals.</li>
+            <li>
+              Complement systems like 
+              <a 
+                href="https://niccdies.climate.gov.ph/ghg-inventory"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline ml-1"
+              >
+                PGHGIMRS
+              </a>.
+            </li>
+          </ul>
+        </div>
 
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Understanding CO<sub>2</sub>e
-      </h2>
-      <p className="mb-4">
-        CO<sub>2</sub>e, or carbon dioxide equivalent, is a standardized metric
-        that expresses the warming impact of various greenhouse gases—like
-        methane (CH<sub>4</sub>) and nitrous oxide (N<sub>2</sub>O)—in terms of
-        carbon dioxide (CO<sub>2</sub>). This allows for a unified measurement
-        of emissions, making it easier to compare and manage different gases on
-        a common scale.
-      </p>
+        <div className="bg-neutral-50 p-4 rounded-xl shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">What is CO<sub>2</sub>e?</h2>
+          <p>
+            CO<sub>2</sub>e (carbon dioxide equivalent) is a standard unit that 
+            expresses the global warming potential of different gases as equivalent 
+            amounts of CO<sub>2</sub>. It allows comparison and aggregation of 
+            emissions across sources.
+          </p>
+        </div>
+      </section>
 
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        How GHG-Scout PH Calculates Your Carbon Footprint
-      </h2>
-      <p className="mb-4">
-        GHG-Scout PH estimates community greenhouse gas emissions by applying
-        specific emission factors to reported activity data in key sectors. Below is a simplified explanation of how emissions are calculated for each sector:
-      </p>
+      <section className="space-y-4">
+        <h2 className="text-2xl font-bold">How GHG-Scout PH Calculates Emissions</h2>
+        <div className="space-y-2">
+          <div className="p-4 bg-white rounded-xl shadow">
+            <h3 className="font-semibold text-lg mb-1">Energy Sector</h3>
+            <p>Applies emission factors to energy consumption:</p>
+            <ul className="list-disc list-inside">
+              <li>Electricity: kWh × 0.709</li>
+              <li>LPG: kg × 2.983</li>
+              <li>Kerosene: L × 2.391</li>
+              <li>Firewood: kg × 0.015</li>
+            </ul>
+          </div>
 
-      <h3 className="text-lg font-semibold mt-4 mb-2">Energy Sector</h3>
-      <p className="mb-2">
-        Emissions are calculated by multiplying the amount of energy consumed from different sources by their respective emission factors (measured in kg CO<sub>2</sub>e per unit):
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>Electricity (kWh) * 0.709</li>
-        <li>LPG used (kg) * 2.983</li>
-        <li>Kerosene used (liters) * 2.391</li>
-        <li>Firewood used (kg) * 0.015</li>
-      </ul>
+          <div className="p-4 bg-white rounded-xl shadow">
+            <h3 className="font-semibold text-lg mb-1">Transport Sector</h3>
+            <p>Combines distance, frequency, trips, fuel factor:</p>
+            <p className="italic">
+              Distance (km/day) × Trips/day × Days/week × Fuel factor
+            </p>
+          </div>
 
-      <h3 className="text-lg font-semibold mt-4 mb-2">Transport Sector</h3>
-      <p className="mb-2">
-        Emissions are based on the distance traveled, travel frequency, trips per day, and a fuel-specific emission factor (default factor is 2.0 kg CO<sub>2</sub>e per unit if unspecified):
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Distance travelled daily (km) * Travel frequency (per week) * Trips per
-          day * Fuel emission factor
-        </li>
-      </ul>
+          <div className="p-4 bg-white rounded-xl shadow">
+            <h3 className="font-semibold text-lg mb-1">Waste Sector</h3>
+            <p>Estimates from organic waste decomposition:</p>
+            <p className="italic">
+              Waste (kg/month) × Organic fraction × 1.8
+            </p>
+          </div>
 
-      <h3 className="text-lg font-semibold mt-4 mb-2">Waste Sector</h3>
-      <p className="mb-2">
-        Emissions estimate organic waste decomposition by multiplying the monthly waste generated by the organic fraction and an emission factor of 1.8:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Waste generated (kg/month) * (Organic fraction %) * 1.8
-        </li>
-      </ul>
+          <div className="p-4 bg-white rounded-xl shadow">
+            <h3 className="font-semibold text-lg mb-1">Agriculture Sector</h3>
+            <ul className="list-disc list-inside">
+              <li>Fertilizer: kg × 5.5</li>
+              <li>Chickens: number × 0.02</li>
+              <li>Pigs: number × 1.1</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <h3 className="text-lg font-semibold mt-4 mb-2">Agriculture Sector</h3>
-      <p className="mb-2">
-        Emissions are the sum of:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>Fertilizer applied (kg) * 5.5</li>
-        <li>Number of chickens * 0.02</li>
-        <li>Number of pigs * 1.1</li>
-      </ul>
+      <section className="bg-neutral-50 p-6 rounded-xl shadow space-y-3">
+        <h2 className="text-xl font-semibold">Benefits of GHG-Scout PH</h2>
+        <ul className="list-disc list-inside space-y-1">
+          <li>Automates Philippine-specific GHG calculations.</li>
+          <li>Supports climate compliance & reporting.</li>
+          <li>Provides transparent, auditable estimates.</li>
+          <li>Delivers interactive dashboards and AI suggestions.</li>
+        </ul>
+      </section>
 
-      <p className="mb-6">
-        <strong>Final Emission Estimate:</strong> All calculated emissions across relevant sources within the sector are summed and reported as kilograms of CO<sub>2</sub> equivalent (kg CO<sub>2</sub>e). This figure represents the community’s estimated greenhouse gas impact.
-      </p>
-
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Carbon Footprint and Offsetting
-      </h2>
-      <p className="mb-4">
-        Your carbon footprint represents the total CO<sub>2</sub>e emissions
-        generated by daily activities such as electricity use, transportation,
-        and waste management. By using GHG-Scout PH, individuals and
-        institutions can:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>Identify their main sources of emissions.</li>
-        <li>Explore personalized recommendations to reduce emissions.</li>
-        <li>
-          Learn about carbon offsetting strategies, including tree planting and
-          adopting renewable energy solutions.
-        </li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Benefits of Using GHG-Scout PH
-      </h2>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Automates complex GHG calculations using Philippine-specific emission
-          factors.
-        </li>
-        <li>
-          Supports compliance and reporting aligned with national and
-          international standards.
-        </li>
-        <li>
-          Provides transparent, auditable emission estimates and clear
-          visualizations.
-        </li>
-        <li>
-          Offers interactive dashboards to track emission trends and monitor
-          reduction efforts.
-        </li>
-        <li>
-          Delivers AI-driven, tailored recommendations for effective climate
-          action.
-        </li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Impact in the Philippines
-      </h2>
-      <p className="mb-4">
-        GHG-Scout PH empowers Filipino communities to take meaningful climate
-        action by providing localized insights based on community data. It is an
-        ideal tool for:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>School sustainability programs and environmental education.</li>
-        <li>LGU climate initiatives and local policy planning.</li>
-        <li>Barangay-level awareness and grassroots climate monitoring.</li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-6 mb-2">
-        Alignment with National Climate Efforts
-      </h2>
-      <p className="mb-4">
-        Inspired by the{" "}
-        <a
-          href="https://niccdies.climate.gov.ph/ghg-inventory"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          PGHGIMRS
-        </a>
-        ,{" "}
-        <a
-          href="https://drive.google.com/file/d/1S8Nh_YMzM4LizaWZ1gNxCKha9REjosyA/view?usp=sharing"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          its software model
-        </a>,{" "}
-        <a
-          href="https://climate.gov.ph/about-us"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Climate Change Commission
-        </a>,{" "}
-        <a
-          href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          IPCC 2006 Guidelines{" "}
-        </a>
-        and the{" "}
-        <a
-          href="https://niccdies.climate.gov.ph"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          National Integrated Climate Change Database Information and Exchange
-          System (NICCDIES)
-        </a>
-        , GHG-Scout PH complements these programs by:
-      </p>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Providing a grassroots platform for community-level GHG monitoring.
-        </li>
-        <li>Enhancing local data collection and climate awareness.</li>
-        <li>
-          Ensuring data privacy and security through robust authentication and
-          access control.
-        </li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-6 mb-2">Future Enhancements</h2>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          Integration with official NICCDIES data pipelines and real-time
-          submissions.
-        </li>
-        <li>
-          Localization with local dialects and improved accessibility features.
-        </li>
-        <li>
-          Advanced analytics for scenario modeling and impact simulations.
-        </li>
-        <li>
-          Community engagement features such as leaderboards and recognition
-          badges.
-        </li>
-      </ul>
+      <section className="space-y-3">
+        <h2 className="text-xl font-semibold">Documentation</h2>
+        <p>
+          For technical details, refer to:
+        </p>
+        <ul className="list-disc list-inside">
+          <li>
+            <a 
+              href="https://github.com/imperionite/ghg-scout/blob/main/README.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              Project README
+            </a>
+          </li>
+          <li>
+            <a 
+              href="https://github.com/imperionite/ghg-scout/blob/main/IMPLEMENTATION.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              Implementation Plan
+            </a>
+          </li>
+        </ul>
+      </section>
     </div>
   );
 };

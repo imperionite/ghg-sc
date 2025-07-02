@@ -44,8 +44,8 @@ export default function CommunitySummaryChart() {
       {
         label: "Total Emissions (kg)",
         data: emissions,
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "#36A2EB",
+        backgroundColor: "rgba(187, 197, 204, 0.6)",
+        borderColor: "rgba(104, 241, 170, 0.6)",
         borderWidth: 1,
         fill: true
       },

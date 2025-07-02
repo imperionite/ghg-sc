@@ -48,7 +48,7 @@ export default function SectoralByRegionChart() {
   };
 
   return (
-    <Paper elevation={3} className="p-4 shadow-md rounded-2xl">
+    <Paper elevation={3} className="p-4 mt-5 shadow-md rounded-2xl">
       <Typography variant="h6" className="mb-4 text-gray-700">
         Sectoral GHG Emissions by Region
       </Typography>

@@ -38,8 +38,8 @@ export default function CommunityTypeChart() {
       {
         label: "Total Emissions (kg CO2e)",
         data: emissions,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(226, 233, 240, 0.5)",
+        borderColor: "rgb(115, 141, 184)",
         borderWidth: 1,
         fill: true
       },

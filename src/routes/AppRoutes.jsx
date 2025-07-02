@@ -22,18 +22,53 @@ const AppRoutes = () => {
       <MainLayout>
         <Routes>
           {/* Guest-only routes */}
-          <Route path="/" element={<GuestRoute><Home /></GuestRoute>} />
-          <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-          <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
-
+          <Route
+            path="/"
+            element={
+              <GuestRoute>
+                <Home />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <GuestRoute>
+                <Login />
+              </GuestRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <GuestRoute>
+                <Register />
+              </GuestRoute>
+            }
+          />
+          <Route path="/community-dashboard" element={<CommunityDashboard />} />
           {/* Public routes */}
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          
+
           {/* Private routes */}
-          <Route path="/community-dashboard" element={<PrivateRoute><CommunityDashboard /></PrivateRoute>} />
-          <Route path="/ghg-submission-form" element={<PrivateRoute><GHGSubmissionForm /></PrivateRoute>} />
-          <Route path="/me" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+
+          <Route
+            path="/ghg-submission-form"
+            element={
+              <PrivateRoute>
+                <GHGSubmissionForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/me"
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            }
+          />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />

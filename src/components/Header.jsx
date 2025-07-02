@@ -47,6 +47,7 @@ export default function Header() {
   const publicLinks = [
     { label: "Home", to: "/" },
     { label: "About", to: "/about" },
+    { label: "Community Data", to: "/community-dashboard" },
     {
       label: "Public GHG Dashboard",
       to: `${ghgBaseURL}/User_Generated_GHG_Data`,
@@ -58,7 +59,7 @@ export default function Header() {
 
   const authLinks = [
     { label: "About", to: "/about" },
-    { label: "Community Data", to: "/community-dashboard" },
+    
     {
       label: "Public GHG Dashboard",
       to: `${ghgBaseURL}/User_Generated_GHG_Data`,

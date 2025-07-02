@@ -14,7 +14,7 @@ const GuestRoute = ({ children }) => {
 
   if (!rehydrated) return <Loader />;
 
-  return auth?.token ? <Navigate to="/community-dashboard" replace /> : children;
+  return auth?.token ? <Navigate to="/me" replace /> : children;
 };
 
 export default GuestRoute;
