@@ -14,6 +14,7 @@ const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
 const CommunityDashboard = lazy(() => import("../pages/CommunityDashboard"));
 const GHGSubmissionForm = lazy(() => import("../pages/GHGSubmissionForm"));
 const UserProfile = lazy(() => import("../pages/UserProfile"));
+const GHGEssay = lazy(() => import ('../pages/GHGEssay'))
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const AppRoutes = () => {
@@ -47,6 +48,7 @@ const AppRoutes = () => {
             }
           />
           <Route path="/community-dashboard" element={<CommunityDashboard />} />
+          <Route path="/ghg-essay" element={<GHGEssay />} />
           {/* Public routes */}
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

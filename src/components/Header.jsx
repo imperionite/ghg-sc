@@ -46,6 +46,7 @@ export default function Header() {
 
   const publicLinks = [
     { label: "Home", to: "/" },
+    { label: "Project Basis", to: "/ghg-essay" },
     { label: "About", to: "/about" },
     { label: "Community Data", to: "/community-dashboard" },
     {
