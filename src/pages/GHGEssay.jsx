@@ -229,7 +229,7 @@ export default function GHGEssay() {
               <Typography
                 variant="body1"
                 color="text.secondary"
-                sx={{ whiteSpace: "pre-line", fontSize: 14 }}
+                sx={{ whiteSpace: "pre-line", fontSize: 17 }}
               >
                 {section.content}
               </Typography>
@@ -276,7 +276,7 @@ export default function GHGEssay() {
           size="large"
           sx={{ borderRadius: 2 }}
           component={RouterLink}
-          to="/login"
+          to="/community-dashboard"
         >
           Explore GHG-ScoutPH Dashboard
         </Button>
